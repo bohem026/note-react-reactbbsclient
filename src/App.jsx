@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<BoardList />} />
         <Route path="/write" element={<Write />} />
-        {/* <Route path="/view/:id" element={<View />} /> */}
+        <Route path="/view/:id" element={<View />} />
       </Routes>
     </div>
   );
