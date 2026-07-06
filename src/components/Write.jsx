@@ -73,7 +73,12 @@ export default function Write({ isModifyMode, boardId, handleCancel }) {
     formData.append("content", validatedData.content);
 
     if (content.image) {
+      //새 이미지
       formData.append("image", content.image);
+    }
+    if (removeImage) {
+      //기존 이미지 지운다 true
+      formData.append("remove_image", "1");
     }
     return formData;
   };
@@ -186,6 +191,9 @@ export default function Write({ isModifyMode, boardId, handleCancel }) {
               type="checkbox"
               id={`default-check`}
               label="기존이미지 제거"
+              onChange={e => {
+                setRemoveImage(e.target.checked);
+              }}
             />
           </div>
         )}
