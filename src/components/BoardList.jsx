@@ -1,16 +1,18 @@
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import axios from "axios";
-import { useEffect, useState, useCallback } from "react";
-import { Link } from "react-router";
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import axios from 'axios';
+import { useEffect, useState, useCallback } from 'react';
+import { Link } from 'react-router';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Board({ data, onCheckBoxChange }) {
   return (
     <tr>
       <td>
         <Form.Check
-          onChange={e => {
+          onChange={(e) => {
             onCheckBoxChange(e.target.checked, data.id);
           }}
         />
@@ -26,22 +28,22 @@ function Board({ data, onCheckBoxChange }) {
 }
 
 export default function BoardList() {
-  console.log("BoardList 렌더");
+  console.log('BoardList 렌더');
   const [list, setList] = useState([]);
   const [checkList, setCheckList] = useState([]); //[9,10]
 
   const getList = useCallback(() => {
     axios
-      .get("http://localhost:3000/list", {})
-      .then(response => {
+      .get(`${API_URL}/list`, {})
+      .then((response) => {
         console.log(response.data);
         setList(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       })
       .finally(() => {
-        console.log("요청완료");
+        console.log('요청완료');
       });
   }, []);
 
@@ -50,28 +52,28 @@ export default function BoardList() {
   }, [getList]);
 
   const onCheckBoxChange = (checked, id) => {
-    setCheckList(prev => {
+    setCheckList((prev) => {
       if (checked) {
         return [...prev, id];
       } else {
-        return prev.filter(item => item !== id);
+        return prev.filter((item) => item !== id);
       }
     });
   };
   const handleDelete = () => {
     if (checkList.length === 0) {
-      alert("삭제할 글을 선택해주세요.");
+      alert('삭제할 글을 선택해주세요.');
       return;
     }
 
     const boardIdList = checkList.join(); //[11,12]---> 11,12
 
     axios
-      .post("http://localhost:3000/deleteselect", { boardIdList })
-      .then(response => {
+      .post(`${API_URL}/deleteselect`, { boardIdList })
+      .then((response) => {
         getList();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       })
       .finally(() => {});
@@ -95,9 +97,7 @@ export default function BoardList() {
               <td colSpan={5}>글이 없습니다.</td>
             </tr>
           ) : (
-            list.map((item, idx) => (
-              <Board key={idx} data={item} onCheckBoxChange={onCheckBoxChange} />
-            ))
+            list.map((item, idx) => <Board key={idx} data={item} onCheckBoxChange={onCheckBoxChange} />)
           )}
         </tbody>
       </Table>
