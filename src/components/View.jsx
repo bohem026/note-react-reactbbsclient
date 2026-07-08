@@ -1,16 +1,16 @@
-import Button from "react-bootstrap/Button";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router";
+import Button from 'react-bootstrap/Button';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link, useParams, useNavigate } from 'react-router';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function View({ handleModify }) {
   const [content, setContent] = useState({
-    writer: "",
-    title: "",
-    content: "",
-    date: "",
+    writer: '',
+    title: '',
+    content: '',
+    date: '',
     image: null,
   });
   const [isError, setIsError] = useState(false);
@@ -21,7 +21,7 @@ export default function View({ handleModify }) {
   useEffect(() => {
     axios
       .get(`${API_URL}/view?id=${id}`)
-      .then(response => {
+      .then((response) => {
         console.log(response.data); //[{..}]
         //setContent(response.data);
         //data가 없거나 data의 배열의 개수가 0가 같다면
@@ -40,12 +40,12 @@ export default function View({ handleModify }) {
           image: data.image_path,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         setIsError(true);
       })
       .finally(() => {
-        console.log("요청완료");
+        console.log('요청완료');
       });
   }, []);
 
@@ -64,15 +64,15 @@ export default function View({ handleModify }) {
     handleModify(id);
   };
   const handleDelete = () => {
-    if (window.confirm("정말 삭제할까요")) {
+    if (window.confirm('정말 삭제할까요')) {
       axios
         .post(`${API_URL}/delete`, {
           id: id,
         })
         .then(() => {
-          navigate("/");
+          navigate('/');
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         })
         .finally(() => {});
@@ -89,11 +89,7 @@ export default function View({ handleModify }) {
       {content.content}
       {content.image && (
         <div>
-          <img
-            src={`${API_URL}/${content.image}`}
-            alt={content.title}
-            style={{ maxWidth: "80%" }}
-          />
+          <img src={`/${content.image}`} alt={content.title} style={{ maxWidth: '80%' }} />
         </div>
       )}
       <hr />
